@@ -166,10 +166,19 @@ function bytesToSize(bytes) {
   return (bytes / Math.pow(k, i)).toFixed(2) + " " + units[i];
 }
 
-// 好看的分段进度条：10 格，已用█ 未用░，按百分比选色
+// 彩色进度条：用 emoji 方块当彩色像素，按用量分段着色
+// 0-70% 绿🟩, 70-90% 黄🟨, >90% 红🟥；未用灰⬜
 function fancyBar(pct) {
   const total = 10;
   const filled = Math.max(0, Math.min(total, Math.round((pct / 100) * total)));
-  const colorBlock = pct > 90 ? "█" : (pct >= 70 ? "█" : "█");
-  return "[" + colorBlock.repeat(filled) + "░".repeat(total - filled) + "]";
+  let bar = "";
+  for (let i = 0; i < total; i++) {
+    if (i < filled) {
+      const segPct = ((i + 1) / total) * 100;
+      bar += segPct > 90 ? "🟥" : (segPct >= 70 ? "🟨" : "🟩");
+    } else {
+      bar += "⬜";
+    }
+  }
+  return bar;
 }
