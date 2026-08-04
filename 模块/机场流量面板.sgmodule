@@ -1,4 +1,4 @@
-#!name=机场流量面板(合并·默认3机场·可扩展5)
+#!name=机场流量面板
 #!desc=单面板显示多个机场流量/到期，绿色主题，429退避。默认启用前3个机场；如需第4/5个，在下方[Script]的argument行末尾追加 &url4={{{url4}}}&title4=... 并在本段#!arguments补 url4:... 即可（脚本已支持，留空自动隐藏）。
 #!system=ios
 #!author=基于 cc63/Surge 修改
