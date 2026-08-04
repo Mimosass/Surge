@@ -1,19 +1,19 @@
 /**********
-* 多机场流量面板（合并版 v3.3-color）
-* - 彩色进度条 🟩🟨🟥⬜
+* 多机场流量面板（合并版 v1.1 多彩）
+* - 彩色进度条 🟩🟨🟥⬜（emoji 方块）
 * - 绿色主题、429 退避、3 机场
-* - 面板底部显示版本号便于确认更新
+* - 面板标题/底部显示版本号 1.1
 * 说明：Surge [Panel] 仅支持 {title,content,icon,icon-color}，无 SwiftUI。
 **********/
 
-const SCRIPT_VERSION = "v3.3-color";
+const SCRIPT_VERSION = "v1.1";
 
 (async () => {
   try {
     const args = getArgs();
     const airports = getAirports(args);
     if (airports.length === 0) {
-      return $done({ title: "机场面板", content: "未配置任何机场(检查 url 参数)", icon: "exclamationmark.triangle", "icon-color": "#CB1B45" });
+      return $done({ title: "机场面板 " + SCRIPT_VERSION, content: "未配置任何机场(检查 url 参数)", icon: "exclamationmark.triangle", "icon-color": "#CB1B45" });
     }
 
     const lines = [];
@@ -34,7 +34,7 @@ const SCRIPT_VERSION = "v3.3-color";
           const statusEmoji = pct > 90 ? "🔴" : (pct >= 70 ? "🟡" : "🟢");
           let line = `${statusEmoji} ${title}\n`;
           line += `  用量 ${bytesToSize(used)} / ${bytesToSize(total)}\n`;
-          line += `  ${fancyBar(pct)}  ${pctStr}%`;
+          line += `  ${fancyBar(pct)} ${pctStr}%`;
           const expire = a.expire || info.expire;
           const expLeft = getExpireDaysLeft(expire);
           if (expLeft != null) line += `\n  ⏳ ${expLeft} 天到期`;
@@ -47,7 +47,7 @@ const SCRIPT_VERSION = "v3.3-color";
       if (a.i !== airports[airports.length - 1].i) lines.push("──────────────");
     }
 
-    const title = (args.panelTitle || "✈️ 机场流量") + (failed ? ` (${failed}失败)` : " 🟢");
+    const title = "✈️ 机场流量 " + SCRIPT_VERSION + (failed ? ` (${failed}失败)` : " 🟢");
     const foot = "──────────────\n脚本 " + SCRIPT_VERSION;
     $done({
       title,
@@ -57,7 +57,7 @@ const SCRIPT_VERSION = "v3.3-color";
     });
   } catch (error) {
     console.log(`发生错误: ${error}`);
-    $done({ title: "机场面板错误", content: `错误信息: ${error}`, icon: "exclamationmark.triangle", "icon-color": "#CB1B45" });
+    $done({ title: "机场面板错误 " + SCRIPT_VERSION, content: `错误信息: ${error}`, icon: "exclamationmark.triangle", "icon-color": "#CB1B45" });
   }
 })();
 
@@ -85,7 +85,6 @@ function getAirports(args) {
   return list;
 }
 
-// 指数退避：1s -> 2s -> 4s（应对 429 限流）
 async function fetchInfoWithRetry(url, retries) {
   let lastDiag = "未知";
   for (let attempt = 1; attempt <= retries; attempt++) {
@@ -170,7 +169,7 @@ function bytesToSize(bytes) {
   return (bytes / Math.pow(k, i)).toFixed(2) + " " + units[i];
 }
 
-// 彩色进度条：用 emoji 方块当彩色像素，按用量分段着色
+// 彩色进度条：emoji 方块当彩色像素
 // 0-70% 绿🟩, 70-90% 黄🟨, >90% 红🟥；未用灰⬜
 function fancyBar(pct) {
   const total = 10;
