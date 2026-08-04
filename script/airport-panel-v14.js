@@ -1,12 +1,11 @@
 /**********
-* 多机场流量面板（合并版 v1.2）
-* - ASCII 进度条 █░（Surge 面板稳定显示）
-* - 面板图标颜色按最差机场动态变 绿/黄/红（真彩色，Surge 必渲染）
-* - 标题含版本号 1.2
+* 多机场流量面板（合并版 v1.4 简洁）
+* - 无进度条，纯文本用量/到期
+* - 标题状态 emoji 彩色（✅绿 / ⚠️黄 / 🚨红，系统级彩色）
 * - 绿色主题、429 退避、3 机场
 **********/
 
-const SCRIPT_VERSION = "v1.3";
+const SCRIPT_VERSION = "v1.4";
 
 (async () => {
   try {
@@ -32,12 +31,11 @@ const SCRIPT_VERSION = "v1.3";
           const used = (info.download || 0) + (info.upload || 0);
           const total = info.total || 0;
           const pct = total ? (used / total) * 100 : 0;
-          const pctStr = total ? pct.toFixed(1) : "?";
+          const pctStr = total ? pct.toFixed(1) + "%" : "?";
           if (pct >= 90) worst = 2; else if (pct >= 70) worst = Math.max(worst, 1);
           const statusEmoji = pct > 90 ? "🔴" : (pct >= 70 ? "🟡" : "🟢");
           let line = `${statusEmoji} ${title}\n`;
-          line += `  用量 ${bytesToSize(used)} / ${bytesToSize(total)}\n`;
-          line += `  ${fancyBar(pct)} ${pctStr}%`;
+          line += `  用量 ${bytesToSize(used)} / ${bytesToSize(total)} (${pctStr})`;
           const expire = a.expire || info.expire;
           const expLeft = getExpireDaysLeft(expire);
           if (expLeft != null) line += `\n  ⏳ ${expLeft} 天到期`;
@@ -51,7 +49,6 @@ const SCRIPT_VERSION = "v1.3";
       if (a.i !== airports[airports.length - 1].i) lines.push("──────────────");
     }
 
-    const iconColor = worst === 2 ? "#CB1B45" : (worst === 1 ? "#EF6D20" : "#22C55E");
     const statusIcon = worst === 2 ? "🚨" : (worst === 1 ? "⚠️" : "✅");
     const title = statusIcon + " 机场流量 " + SCRIPT_VERSION + (failed ? ` (${failed}失败)` : "");
     const foot = "──────────────\n脚本 " + SCRIPT_VERSION;
@@ -59,7 +56,7 @@ const SCRIPT_VERSION = "v1.3";
       title,
       content: lines.join("\n") + "\n" + foot,
       icon: args.panelIcon || "checkmark.circle.fill",
-      "icon-color": iconColor,
+      "icon-color": args.panelColor || "#22C55E",
     });
   } catch (error) {
     console.log(`发生错误: ${error}`);
@@ -173,10 +170,4 @@ function bytesToSize(bytes) {
   const k = 1024;
   const i = Math.floor(Math.log(bytes) / Math.log(k));
   return (bytes / Math.pow(k, i)).toFixed(2) + " " + units[i];
-}
-
-function fancyBar(pct) {
-  const total = 10;
-  const filled = Math.max(0, Math.min(total, Math.round((pct / 100) * total)));
-  return "[" + "█".repeat(filled) + "░".repeat(total - filled) + "]";
 }
