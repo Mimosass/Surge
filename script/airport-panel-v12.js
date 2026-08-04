@@ -1,12 +1,12 @@
 /**********
-* 多机场流量面板（合并版 v1.1 多彩）
-* - 彩色进度条 🟩🟨🟥⬜（emoji 方块）
+* 多机场流量面板（合并版 v1.2）
+* - ASCII 进度条 █░（Surge 面板稳定显示）
+* - 面板图标颜色按最差机场动态变 绿/黄/红（真彩色，Surge 必渲染）
+* - 标题含版本号 1.2
 * - 绿色主题、429 退避、3 机场
-* - 面板标题/底部显示版本号 1.1
-* 说明：Surge [Panel] 仅支持 {title,content,icon,icon-color}，无 SwiftUI。
 **********/
 
-const SCRIPT_VERSION = "v1.1";
+const SCRIPT_VERSION = "v1.2";
 
 (async () => {
   try {
@@ -18,6 +18,7 @@ const SCRIPT_VERSION = "v1.1";
 
     const lines = [];
     let failed = 0;
+    let worst = 0; // 0 绿 1 黄 2 红
     for (const a of airports) {
       const title = a.title || ("机场" + a.i);
       try {
@@ -25,12 +26,14 @@ const SCRIPT_VERSION = "v1.1";
         if (!res.ok) {
           lines.push(`🔴 ${title}\n   ${res.diag}`);
           failed++;
+          worst = 2;
         } else {
           const info = res.info;
           const used = (info.download || 0) + (info.upload || 0);
           const total = info.total || 0;
           const pct = total ? (used / total) * 100 : 0;
           const pctStr = total ? pct.toFixed(1) : "?";
+          if (pct >= 90) worst = 2; else if (pct >= 70) worst = Math.max(worst, 1);
           const statusEmoji = pct > 90 ? "🔴" : (pct >= 70 ? "🟡" : "🟢");
           let line = `${statusEmoji} ${title}\n`;
           line += `  用量 ${bytesToSize(used)} / ${bytesToSize(total)}\n`;
@@ -43,17 +46,19 @@ const SCRIPT_VERSION = "v1.1";
       } catch (e) {
         lines.push(`🔴 ${title}\n   异常(${e})`);
         failed++;
+        worst = 2;
       }
       if (a.i !== airports[airports.length - 1].i) lines.push("──────────────");
     }
 
-    const title = "✈️ 机场流量 " + SCRIPT_VERSION + (failed ? ` (${failed}失败)` : " 🟢");
+    const iconColor = worst === 2 ? "#CB1B45" : (worst === 1 ? "#EF6D20" : "#22C55E");
+    const title = "✈️ 机场流量 " + SCRIPT_VERSION + (failed ? ` (${failed}失败)` : " ✅");
     const foot = "──────────────\n脚本 " + SCRIPT_VERSION;
     $done({
       title,
       content: lines.join("\n") + "\n" + foot,
       icon: args.panelIcon || "checkmark.circle.fill",
-      "icon-color": args.panelColor || "#22C55E",
+      "icon-color": iconColor,
     });
   } catch (error) {
     console.log(`发生错误: ${error}`);
@@ -169,19 +174,8 @@ function bytesToSize(bytes) {
   return (bytes / Math.pow(k, i)).toFixed(2) + " " + units[i];
 }
 
-// 彩色进度条：emoji 方块当彩色像素
-// 0-70% 绿🟩, 70-90% 黄🟨, >90% 红🟥；未用灰⬜
 function fancyBar(pct) {
   const total = 10;
   const filled = Math.max(0, Math.min(total, Math.round((pct / 100) * total)));
-  let bar = "";
-  for (let i = 0; i < total; i++) {
-    if (i < filled) {
-      const segPct = ((i + 1) / total) * 100;
-      bar += segPct > 90 ? "🟥" : (segPct >= 70 ? "🟨" : "🟩");
-    } else {
-      bar += "⬜";
-    }
-  }
-  return bar;
+  return "[" + "█".repeat(filled) + "░".repeat(total - filled) + "]";
 }

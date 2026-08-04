@@ -1,5 +1,5 @@
-#!name=机场信息 v1.1
-#!desc=单面板显示多个机场流量/到期，多彩进度条，绿色主题，429退避。默认3个机场。
+#!name=机场信息 v1.2
+#!desc=单面板显示多个机场流量/到期，ASCII进度条+动态彩色图标，绿色主题，429退避。默认3个机场。
 #!system=ios
 #!author=基于 cc63/Surge 修改
 #!arguments=url:机场1订阅base64, title:机场1名, icon:leaf, color:#22C55E, url2:机场2订阅base64, title2:机场2名, icon2:leaf, color2:#16A34A, url3:机场3订阅base64, title3:机场3名, icon3:leaf, color3:#15803D
@@ -8,4 +8,4 @@
 机场流量 = script-name=多机场面板,update-interval=86400
 
 [Script]
-多机场面板 = type=generic,timeout=20,script-path=https://raw.githubusercontent.com/Mimosass/Surge/main/script/airport-panel-color.js,script-update-interval=86400,argument="url={{{url}}}&title={{{title}}}&icon={{{icon}}}&color={{{color}}}&url2={{{url2}}}&title2={{{title2}}}&icon2={{{icon2}}}&color2={{{color2}}}&url3={{{url3}}}&title3={{{title3}}}&icon3={{{icon3}}}&color3={{{color3}}}"
+多机场面板 = type=generic,timeout=20,script-path=https://raw.githubusercontent.com/Mimosass/Surge/main/script/airport-panel-v12.js,script-update-interval=86400,argument="url={{{url}}}&title={{{title}}}&icon={{{icon}}}&color={{{color}}}&url2={{{url2}}}&title2={{{title2}}}&icon2={{{icon2}}}&color2={{{color2}}}&url3={{{url3}}}&title3={{{title3}}}&icon3={{{icon3}}}&color3={{{color3}}}"
