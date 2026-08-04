@@ -8,4 +8,4 @@
 机场流量 = script-name=多机场面板,update-interval=86400
 
 [Script]
-多机场面板 = type=generic,timeout=20,script-path=https://raw.githubusercontent.com/Mimosass/Surge/main/script/%E5%A4%9A%E6%9C%BA%E5%9C%BA%E9%9D%A2%E6%9D%BF.js,script-update-interval=86400,argument="url={{{url}}}&title={{{title}}}&icon={{{icon}}}&color={{{color}}}&url2={{{url2}}}&title2={{{title2}}}&icon2={{{icon2}}}&color2={{{color2}}}&url3={{{url3}}}&title3={{{title3}}}&icon3={{{icon3}}}&color3={{{color3}}}&url4={{{url4}}}&title4={{{title4}}}&icon4={{{icon4}}}&color4={{{color4}}}&url5={{{url5}}}&title5={{{title5}}}&icon5={{{icon5}}}&color5={{{color5}}}"
+多机场面板 = type=generic,timeout=20,script-path=https://raw.githubusercontent.com/Mimosass/Surge/main/script/%E5%A4%9A%E6%9C%BA%E5%9C%BA%E9%9D%A2%E6%9D%BF.js,script-update-interval=86400,argument="url={{{url}}}&title={{{title}}}&icon={{{icon}}}&color={{{color}}}&url2={{{url2}}}&title2={{{title2}}}&icon2={{{icon2}}}&color2={{{color2}}}&url3={{{url3}}}&title3={{{title3}}}&icon3={{{icon3}}}&color3={{{color3}}}"
