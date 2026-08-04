@@ -6,7 +6,7 @@
 * - 绿色主题、429 退避、3 机场
 **********/
 
-const SCRIPT_VERSION = "v1.2";
+const SCRIPT_VERSION = "v1.3";
 
 (async () => {
   try {
@@ -52,7 +52,8 @@ const SCRIPT_VERSION = "v1.2";
     }
 
     const iconColor = worst === 2 ? "#CB1B45" : (worst === 1 ? "#EF6D20" : "#22C55E");
-    const title = "✈️ 机场流量 " + SCRIPT_VERSION + (failed ? ` (${failed}失败)` : " ✅");
+    const statusIcon = worst === 2 ? "🚨" : (worst === 1 ? "⚠️" : "✅");
+    const title = statusIcon + " 机场流量 " + SCRIPT_VERSION + (failed ? ` (${failed}失败)` : "");
     const foot = "──────────────\n脚本 " + SCRIPT_VERSION;
     $done({
       title,
