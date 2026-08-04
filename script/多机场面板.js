@@ -1,9 +1,12 @@
 /**********
-* 多机场流量面板（合并版 v3.2）
-* 修复：第三个机场 HTTP 429 -> 指数退避(1s,2s,4s) + 降低请求频率
-* 美化：分段渐变进度条 + 百分比，绿色主题
+* 多机场流量面板（合并版 v3.3-color）
+* - 彩色进度条 🟩🟨🟥⬜
+* - 绿色主题、429 退避、3 机场
+* - 面板底部显示版本号便于确认更新
 * 说明：Surge [Panel] 仅支持 {title,content,icon,icon-color}，无 SwiftUI。
 **********/
+
+const SCRIPT_VERSION = "v3.3-color";
 
 (async () => {
   try {
@@ -45,9 +48,10 @@
     }
 
     const title = (args.panelTitle || "✈️ 机场流量") + (failed ? ` (${failed}失败)` : " 🟢");
+    const foot = "──────────────\n脚本 " + SCRIPT_VERSION;
     $done({
       title,
-      content: lines.join("\n"),
+      content: lines.join("\n") + "\n" + foot,
       icon: args.panelIcon || "checkmark.circle.fill",
       "icon-color": args.panelColor || "#22C55E",
     });
