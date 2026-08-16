@@ -30,21 +30,35 @@ const Env = (function () {
   return Env;
 })();
 
-const $ = new Env("金币签到");
+const $ = new Env("充电有礼");
 const API = "https://nad.ehuoke.com/gw/advert/mini-program/ext";
 
 const KEY_TOKEN = "gold_sign_in_token";
 const KEY_EQUIP = "gold_sign_in_equipmentValue";
+const KEY_APPID = "gold_sign_in_appid";
 const EQUIP_DEFAULT = "";  // 服务端不强制校验，留空即可，不绑定任何设备
 
 function getBox(k) { return $.getdata(k) || ""; }
 function setBox(k, v) { $.setdata(v, k); console.log(`[签到] BoxJS 写入 ${k}`); }
 
 const UA = "Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 MicroMessenger/Linux";
-const REFERER = "https://servicewechat.com/wx196a5bdcac8d9141/75/page-frame.html";
+
+function buildReferer() {
+  const appid = getBox(KEY_APPID) || "";
+  return appid
+    ? `https://servicewechat.com/${appid}/75/page-frame.html`
+    : "";
+}
+function extractAppID(url) {
+  // 从 servicewechat.com 的 URL 或 Referer 头中提取 AppID
+  const m = url && url.match(/servicewechat\.com\/([a-z0-9]{16,32})\//i);
+  return m ? m[1] : null;
+}
 
 function authHeaders() {
-  const h = { "Content-Type": "application/json", "User-Agent": UA, "Referer": REFERER };
+  const h = { "Content-Type": "application/json", "User-Agent": UA };
+  const referer = buildReferer();
+  if (referer) h["Referer"] = referer;
   const tk = getBox(KEY_TOKEN);
   if (tk) h["Authorization_Bar"] = tk;
   return h;
@@ -80,12 +94,12 @@ async function claimTask(taskId) {
 
 async function doSignIn() {
   const token = getBox(KEY_TOKEN);
-  if (!token) { $.msg("金币签到", "需要登录", "请先打开小程序获取 Token"); return; }
-  $.msg("金币签到", "开始签到", "正在查询任务与余额...");
+  if (!token) { $.msg("充电有礼", "需要登录", "请先打开小程序获取 Token"); return; }
+  $.msg("充电有礼", "开始签到", "正在查询任务与余额...");
 
   let week = await httpGet(API + "/sign-in/one-week-data?equipmentTypeValue=CDZ");
   if (isUnauthorized(week)) {
-    $.msg("金币签到", "Token 已过期", "获取失败，请重新打开小程序获取新 Token");
+    $.msg("充电有礼", "Token 已过期", "获取失败，请重新打开小程序获取新 Token");
     return;
   }
   const weekBody = parseBody(week) || [];
@@ -114,20 +128,34 @@ async function doSignIn() {
   lines.push(`任务领取：成功 ${ok} 个，失败 ${fail} 个`);
   lines.push("本次获得：" + total + " 金币");
   lines.push("当前余额：" + balanceVal + " 金币");
-  $.msg("金币签到 ✅ 完成", "签到结果", lines.join("\n"));
+  $.msg("充电有礼 ✅ 完成", "签到结果", lines.join("\n"));
 }
 
 (async () => {
   try {
     if (typeof $request !== "undefined" && $request) {
-      // 仅 http-request 一种触发：从业务请求头抓 token
+      // 仅 http-request 一种触发：从业务请求头抓 token 和 AppID
       const h = $request.headers || {};
       const tk = h["Authorization_Bar"];
+      const url = $request.url || $request.url || "";
+      const referer = h["Referer"] || h["referer"] || "";
+
+      // 同时提取 AppID（URL 或 Referer 头中）
+      let appid = extractAppID(url);
+      if (!appid && referer) appid = extractAppID(referer);
+      if (appid) {
+        const oldAppid = getBox(KEY_APPID);
+        if (appid !== oldAppid) {
+          setBox(KEY_APPID, appid);
+          console.log(`[签到] 已记录小程序 AppID: ${appid}`);
+        }
+      }
+
       if (tk) {
         const old = getBox(KEY_TOKEN);
         if (tk !== old) {
           setBox(KEY_TOKEN, tk);
-          $.msg("金币签到", "Token 已更新", "新 Token: " + tk.substring(0, 40) + "...");
+          $.msg("充电有礼", "Token 已更新", "新 Token: " + tk.substring(0, 40) + "...");
           console.log("[签到] 写入 Token: " + tk.substring(0, 30) + "...");
         } else {
           console.log("[签到] Token 未变化，跳过");
