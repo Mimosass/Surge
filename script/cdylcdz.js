@@ -107,6 +107,20 @@ async function doSignIn() {
   const signed = today && today.sign;
   console.log("[签到] 今日签到: " + (signed ? "已签到" : "未签到"));
 
+  // 如果未签到，执行签到
+  if (!signed) {
+    console.log("[签到] 执行签到...");
+    const saveRes = await httpPost(API + "/sign-in/save", {
+      equipmentTypeValue: "CDZ",
+      equipmentValue: getBox(KEY_EQUIP) || EQUIP_DEFAULT
+    });
+    if (saveRes && saveRes.code === "0000000") {
+      console.log("[签到] 签到成功");
+    } else {
+      console.log("[签到] 签到失败: " + JSON.stringify(saveRes));
+    }
+  }
+
   const taskList = await httpGet(API + "/daily-task/common/task-list/CDZ");
   const taskBody = parseBody(taskList) || [];
   const tasks = taskBody.filter(t => t.unreceived === false);
