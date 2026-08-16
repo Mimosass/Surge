@@ -13,7 +13,11 @@
         "本接口及源码仅限学习研究使用，严禁将接口使用于电信诈骗、网络赌博、恶意营销、非法传销等违法活动。",
         "因使用本脚本引起的任何法律责任，作者概不负责。"
       ],
-      "keys": ["gold_sign_in_token", "gold_sign_in_equipmentValue"],
+      "keys": [
+        "gold_sign_in_token",
+        "gold_sign_in_equipmentValue",
+        "gold_sign_in_appid"
+      ],
       "settings": [
         {
           "id": "gold_sign_in_token",
@@ -34,6 +38,16 @@
           "autoGrow": true,
           "rows": 1,
           "desc": "留空即可，脚本会自动处理"
+        },
+        {
+          "id": "gold_sign_in_appid",
+          "name": "小程序 AppID（自动捕获）",
+          "val": "",
+          "type": "text",
+          "placeholder": "首次使用时自动从请求中提取",
+          "autoGrow": true,
+          "rows": 1,
+          "desc": "也可手动填写，如 wx196a5bdcac8d9141"
         }
       ],
       "author": "iTrueness",
