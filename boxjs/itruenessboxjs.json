@@ -47,7 +47,7 @@
           "placeholder": "首次使用时自动从请求中提取",
           "autoGrow": true,
           "rows": 1,
-          "desc": "也可手动填写，如 wx196a5bdcac8d9141"
+          "desc": "也可手动填写"
         }
       ],
       "author": "iTrueness",
