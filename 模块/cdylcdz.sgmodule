@@ -2,8 +2,8 @@
 #!desc=自动签到+领取任务，Token自动获取
 
 [Script]
-充电有礼签到 = type=cron,cronexp="15 7 * * *",script-path=https://raw.githubusercontent.com/Mimosass/Surge/main/script/cdylcdz.js,timeout=60,wake-system=1
-充电有礼请求 = type=http-request,pattern=^https?:\/\/nad\.ehuoke\.com.*,script-path=https://raw.githubusercontent.com/Mimosass/Surge/main/script/cdylcdz.js,timeout=60,requires-body=false
+充电有礼签到 = type=cron,cronexp="15 7 * * *",script-path=cdylcdz.js,timeout=60,wake-system=1
+充电有礼请求 = type=http-request,pattern=^https?:\/\/nad\.ehuoke\.com.*,script-path=cdylcdz.js,timeout=60,requires-body=false
 
 [MITM]
 hostname = %APPEND% nad.ehuoke.com
