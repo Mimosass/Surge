@@ -1,0 +1,47 @@
+{
+  "id": "chargegift",
+  "name": "充电有礼充电桩签到",
+  "author": "iTrueness",
+  "icon": "https://raw.githubusercontent.com/Mimosass/icon/main/icon.png",
+  "repo": "",
+  "apps": [
+    {
+      "id": "ChargeGift",
+      "name": "充电有礼充电桩签到",
+      "descs_html": [
+        "<b>免责声明：</b>",
+        "本接口及源码仅限学习研究使用，严禁将接口使用于电信诈骗、网络赌博、恶意营销、非法传销等违法活动。",
+        "因使用本脚本引起的任何法律责任，作者概不负责。"
+      ],
+      "keys": ["gold_sign_in_token", "gold_sign_in_equipmentValue"],
+      "settings": [
+        {
+          "id": "gold_sign_in_token",
+          "name": "Token（自动捕获）",
+          "val": "",
+          "type": "text",
+          "placeholder": "登录小程序后自动获取",
+          "autoGrow": true,
+          "rows": 1,
+          "desc": "微信登录认证令牌，有效期2小时"
+        },
+        {
+          "id": "gold_sign_in_equipmentValue",
+          "name": "设备标识",
+          "val": "",
+          "type": "text",
+          "placeholder": "留空即可，服务端不强制校验",
+          "autoGrow": true,
+          "rows": 1,
+          "desc": "留空即可，脚本会自动处理"
+        }
+      ],
+      "author": "iTrueness",
+      "repo": "",
+      "icons": [
+        "https://raw.githubusercontent.com/Mimosass/icon/main/icon.png",
+        "https://raw.githubusercontent.com/Mimosass/icon/main/icon.png"
+      ]
+    }
+  ]
+}
