@@ -2,7 +2,7 @@
   "id": "chargegift",
   "name": "充电有礼充电桩签到",
   "author": "iTrueness",
-  "icon": "https://raw.githubusercontent.com/Mimosass/icon/main/icon.png",
+  "icon": "https://raw.githubusercontent.com/Mimosass/Surge/main/icon/icon.png",
   "repo": "",
   "apps": [
     {
@@ -39,8 +39,8 @@
       "author": "iTrueness",
       "repo": "",
       "icons": [
-        "https://raw.githubusercontent.com/Mimosass/icon/main/icon.png",
-        "https://raw.githubusercontent.com/Mimosass/icon/main/icon.png"
+        "https://raw.githubusercontent.com/Mimosass/Surge/main/icon/icon.png",
+        "https://raw.githubusercontent.com/Mimosass/Surge/main/icon/icon.png"
       ]
     }
   ]
