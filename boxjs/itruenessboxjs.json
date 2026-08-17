@@ -56,6 +56,81 @@
         "https://raw.githubusercontent.com/Mimosass/Surge/main/icon/icon.png",
         "https://raw.githubusercontent.com/Mimosass/Surge/main/icon/icon.png"
       ]
+    },
+    {
+      "id": "SFExpress",
+      "name": "顺丰速运",
+      "descs_html": [
+        "<b>免责声明：</b>",
+        "本接口及源码仅限学习研究使用，严禁将接口使用于电信诈骗、网络赌博、恶意营销、非法传销等违法活动。",
+        "因使用本脚本引起的任何法律责任，作者概不负责。"
+      ],
+      "keys": [
+        "chavy_login_sfexpress",
+        "chavy_token_sfexpress"
+      ],
+      "settings": [
+        {
+          "id": "chavy_login_sfexpress",
+          "name": "登录状态（自动捕获）",
+          "val": "",
+          "type": "textarea",
+          "placeholder": "首次运行脚本后自动获取",
+          "autoGrow": true,
+          "rows": 4,
+          "desc": "微信登录认证信息，有效期约2小时"
+        },
+        {
+          "id": "chavy_token_sfexpress",
+          "name": "Token（自动更新）",
+          "val": "",
+          "type": "text",
+          "placeholder": "登录成功后自动保存",
+          "autoGrow": true,
+          "rows": 1,
+          "desc": "Token更新时会发送通知"
+        },
+        {
+          "id": "sfsy_signTask",
+          "name": "签到任务",
+          "val": true,
+          "type": "boolean",
+          "desc": "开启每日签到（默认开启）"
+        },
+        {
+          "id": "sfsy_dailyTask",
+          "name": "每日任务",
+          "val": true,
+          "type": "boolean",
+          "desc": "开启每日积分任务（默认开启）"
+        },
+        {
+          "id": "sfsy_honeyTask",
+          "name": "蜂蜜任务",
+          "val": false,
+          "type": "boolean",
+          "desc": "开启蜂蜜/采蜜任务（默认关闭，活动开启后可启用）"
+        },
+        {
+          "id": "sfsy_memberDay",
+          "name": "会员日活动",
+          "val": false,
+          "type": "boolean",
+          "desc": "开启会员日活动任务（默认关闭，会员日当天启用）"
+        },
+        {
+          "id": "sfsy_tokenNotify",
+          "name": "Token更新通知",
+          "val": true,
+          "type": "boolean",
+          "desc": "Token更新时发送系统通知（默认开启）"
+        }
+      ],
+      "author": "iTrueness",
+      "repo": "",
+      "icons": [
+        "https://raw.githubusercontent.com/Mimosass/Surge/main/icon/icon.png"
+      ]
     }
   ]
 }
